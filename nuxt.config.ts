@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module'
   ],
   primevue: { 
+    components:{
+      include:['*']
+    },
     options: {
       theme: {
         preset: Aura
