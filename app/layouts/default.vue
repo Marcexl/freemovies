@@ -1,12 +1,10 @@
 <template>
-
     <div class="app-layout">
         <!-- Top Navigation Bar -->
         <Menubar :model="menuItems" class="top-navbar">
             <template #start>
                 <div class="logo-container" @click="navigateTo('/movies')">
-                    <i class="pi pi-film logo-icon"></i>
-                    <span class="logo-text">FreeMovies</span>
+                    <img src="/logo-cutted.png" alt="FreeMovies" class="logo-image">
                 </div>
             </template>
 

@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <NuxtRouteAnnouncer />
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
     <ClientOnly>
       <Toast />
     </ClientOnly>
