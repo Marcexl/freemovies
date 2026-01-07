@@ -26,7 +26,8 @@
                     <div class="form-group">
                         <label for="email">Email</label>
                         <InputText id="email" v-model="email" type="email" placeholder="your@email.com" class="w-full"
-                            :class="{ 'p-invalid': errors.email }" autocomplete="email" required />
+                            :class="{ 'p-invalid': errors.email }" autocomplete="email" required
+                            :disabled="isLoading" />
                         <small v-if="errors.email" class="p-error">{{ errors.email }}</small>
                     </div>
 
@@ -34,20 +35,20 @@
                         <label for="password">Password</label>
                         <Password id="password" v-model="password" placeholder="••••••••" class="w-full"
                             :class="{ 'p-invalid': errors.password }" :feedback="isRegisterMode" toggleMask
-                            :inputStyle="{ width: '100%' }" required />
+                            :inputStyle="{ width: '100%' }" required :disabled="isLoading" />
                         <small v-if="errors.password" class="p-error">{{ errors.password }}</small>
                     </div>
 
                     <Button type="submit" :label="isRegisterMode ? 'Register' : 'Login'"
                         :icon="isRegisterMode ? 'pi pi-user-plus' : 'pi pi-sign-in'" class="w-full login-button"
-                        :loading="loading" />
+                        :loading="isLoading" :disabled="isLoading" />
 
                     <div class="divider">
                         <span>or continue with</span>
                     </div>
 
-                    <Button label="Google Sign In" icon="pi pi-google" class="w-full google-button"
-                        :loading="googleLoading" @click="handleGoogleLogin" />
+                    <Button label="Google Sign In" icon="pi pi-google" class="w-full google-button" :loading="isLoading"
+                        :disabled="isLoading" @click="handleGoogleLogin" />
 
                     <div v-if="errorMessage" class="error-message">
                         <i class="pi pi-exclamation-triangle"></i>
@@ -61,7 +62,7 @@
 
 <script setup>
 definePageMeta({
-    layout: 'default'
+    layout: false
 })
 
 const { login, register, loginWithGoogle, isAuthenticated } = useAuth()
@@ -73,6 +74,7 @@ const password = ref('')
 const name = ref('')
 const loading = ref(false)
 const googleLoading = ref(false)
+
 const errorMessage = ref('')
 const errors = ref({})
 
@@ -163,6 +165,10 @@ const handleGoogleLogin = async () => {
         googleLoading.value = false
     }
 }
+
+const isLoading = computed(() => {
+    return loading.value || googleLoading.value
+})
 </script>
 
 <style scoped>

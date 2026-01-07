@@ -82,14 +82,14 @@ const userMenuItems = computed(() => [
     {
         separator: true
     },
-    {
+    /*{
         label: 'Account Settings',
         icon: 'pi pi-cog',
         command: () => {
             // TODO: Navigate to settings
             console.log('Settings clicked')
         }
-    },
+    },*/
     {
         separator: true
     },
@@ -202,6 +202,10 @@ watch(() => route.path, () => {
     font-weight: 700;
     color: #ffffff;
     letter-spacing: -0.5px;
+}
+
+.logo-image {
+    width: 120px;
 }
 
 /* Navigation Actions */
