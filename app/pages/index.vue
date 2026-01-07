@@ -3,8 +3,7 @@
         <Card class="login-card">
             <template #title>
                 <div class="login-title">
-                    <i class="pi pi-film" style="font-size: 3rem; color: var(--primary-color)"></i>
-                    <h1>FreeMovies</h1>
+                    <img src="/logo-transp.png" alt="FreeMovies" class="logo-image">
                     <p class="subtitle">Movie Streaming</p>
                 </div>
             </template>
@@ -280,5 +279,15 @@ const isLoading = computed(() => {
 
 .google-button:hover {
     background: #357ae8 !important;
+}
+
+.logo-image {
+    width: 250px;
+}
+
+.p-password:has(.p-password-toggle-mask-icon) .p-password-input,
+.p-inputtext.p-password-input,
+.p-inputtext {
+    color: var(--netflix-white);
 }
 </style>
