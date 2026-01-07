@@ -6,7 +6,7 @@
                     loading="lazy" />
                 <div v-else class="no-poster">
                     <i class="pi pi-image" style="font-size: 3rem"></i>
-                    <p>Sin imagen</p>
+                    <p>No image</p>
                 </div>
             </div>
         </template>

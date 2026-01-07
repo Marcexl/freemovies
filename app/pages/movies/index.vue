@@ -1,14 +1,5 @@
 <template>
     <div class="movies-page">
-        <div class="page-header">
-            <h1>
-                <i class="pi pi-film"></i>
-                Películas Disponibles
-            </h1>
-            <Button label="Cerrar Sesión" icon="pi pi-sign-out" severity="secondary" outlined @click="handleLogout" />
-        </div>
-
-        <SearchBar v-model="searchQuery" :loading="loading" @search="handleSearch" />
 
         <div v-if="error" class="error-container">
             <i class="pi pi-exclamation-triangle"></i>
@@ -22,8 +13,8 @@
         <div v-else-if="movies.length > 0" class="movies-container">
             <div class="results-info">
                 <p>
-                    <strong>{{ totalResults }}</strong> películas encontradas
-                    <span v-if="searchQuery"> para "{{ searchQuery }}"</span>
+                    <strong>{{ totalResults }}</strong> movies found
+                    <span v-if="searchQuery"> for "{{ searchQuery }}"</span>
                 </p>
             </div>
 
@@ -39,20 +30,36 @@
 
         <div v-else-if="!loading" class="empty-state">
             <i class="pi pi-search" style="font-size: 4rem; color: var(--text-color-secondary)"></i>
-            <h2>Busca películas</h2>
-            <p>Ingresa el nombre de una película en el buscador para comenzar</p>
+            <h2>Search movies</h2>
+            <p>Enter the name of a movie in the search bar to start</p>
         </div>
     </div>
 </template>
 
 <script setup>
 definePageMeta({
-    middleware: 'auth'
+    middleware: 'auth',
+    // Layout is now default, so no need to specify
 })
 
+const route = useRoute()
 const { movies, loading, error, searchQuery, currentPage, totalResults, search } = useMovies()
-const { logout } = useAuth()
 const router = useRouter()
+
+// Handle search from query params (when coming from layout search)
+onMounted(() => {
+    const searchParam = route.query.search
+    if (searchParam && searchParam !== searchQuery.value) {
+        search(searchParam, 1)
+    }
+})
+
+// Watch for route query changes
+watch(() => route.query.search, (newSearch) => {
+    if (newSearch && newSearch !== searchQuery.value) {
+        search(newSearch, 1)
+    }
+})
 
 const handleSearch = (query) => {
     if (query && query.trim()) {
@@ -66,46 +73,21 @@ const onPageChange = (event) => {
         search(searchQuery.value, newPage)
     }
 }
-
-const handleLogout = () => {
-    logout()
-    router.push('/')
-}
 </script>
 
 <style scoped>
 .movies-page {
-    min-height: 100vh;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.page-header h1 {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin: 0;
-    color: var(--primary-color);
-    font-size: 2rem;
+    min-height: calc(100vh - 60px);
 }
 
 .results-info {
     margin-bottom: 1.5rem;
-    color: var(--text-color-secondary);
+    color: #b3b3b3;
+    font-size: 1.1rem;
 }
 
 .results-info strong {
-    color: var(--primary-color);
+    color: #ffffff;
 }
 
 .movies-container {
@@ -126,9 +108,10 @@ const handleLogout = () => {
     justify-content: center;
     padding: 3rem;
     gap: 1rem;
-    color: var(--red-500);
-    background: var(--red-50);
-    border-radius: var(--border-radius);
+    color: #e50914;
+    background: rgba(229, 9, 20, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(229, 9, 20, 0.3);
 }
 
 .error-container i {
@@ -143,30 +126,25 @@ const handleLogout = () => {
     padding: 4rem 2rem;
     text-align: center;
     gap: 1rem;
+    min-height: 60vh;
 }
 
 .empty-state h2 {
     margin: 0;
-    color: var(--text-color);
+    color: #ffffff;
+    font-size: 2rem;
 }
 
 .empty-state p {
-    color: var(--text-color-secondary);
+    color: #b3b3b3;
     margin: 0;
+    font-size: 1.1rem;
 }
 
 @media (max-width: 768px) {
-    .movies-page {
-        padding: 1rem;
-    }
-
     .movies-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1rem;
-    }
-
-    .page-header h1 {
-        font-size: 1.5rem;
     }
 }
 </style>

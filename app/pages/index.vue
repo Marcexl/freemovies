@@ -5,7 +5,7 @@
                 <div class="login-title">
                     <i class="pi pi-film" style="font-size: 3rem; color: var(--primary-color)"></i>
                     <h1>FreeMovies</h1>
-                    <p class="subtitle">Administración de Películas</p>
+                    <p class="subtitle">Movie Streaming</p>
                 </div>
             </template>
             <template #content>
@@ -61,7 +61,7 @@
 
 <script setup>
 definePageMeta({
-    layout: false
+    layout: 'default'
 })
 
 const { login, register, loginWithGoogle, isAuthenticated } = useAuth()

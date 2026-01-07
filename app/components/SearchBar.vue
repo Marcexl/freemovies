@@ -4,7 +4,7 @@
             <i class="pi pi-search search-icon"></i>
             <InputText v-model="localQuery" :placeholder="placeholder" class="search-input" @keyup.enter="handleSearch"
                 @input="handleInput" />
-            <Button label="Buscar" icon="pi pi-search" @click="handleSearch" :loading="loading" />
+            <Button label="Search" icon="pi pi-search" @click="handleSearch" :loading="loading" />
         </div>
     </div>
 </template>
@@ -17,7 +17,7 @@ const props = defineProps({
     },
     placeholder: {
         type: String,
-        default: 'Buscar películas...'
+        default: 'Search movies...'
     },
     loading: {
         type: Boolean,
@@ -61,14 +61,37 @@ const handleSearch = () => {
 .search-input-wrapper :deep(.p-inputtext) {
     flex: 1;
     padding-left: 2.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.search-input-wrapper :deep(.p-inputtext:focus) {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+}
+
+.search-input-wrapper :deep(.p-inputtext::placeholder) {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .search-icon {
     position: absolute;
     left: 1rem;
-    color: var(--text-color-secondary);
+    color: rgba(255, 255, 255, 0.6);
     pointer-events: none;
     z-index: 1;
+}
+
+.search-input-wrapper :deep(.p-button) {
+    background: #e50914;
+    border: none;
+    color: #ffffff;
+}
+
+.search-input-wrapper :deep(.p-button:hover) {
+    background: #b20710;
 }
 
 .search-input-wrapper {

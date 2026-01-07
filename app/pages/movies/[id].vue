@@ -55,7 +55,7 @@
                     </div>
 
                     <div v-if="movie.Plot && movie.Plot !== 'N/A'" class="plot">
-                        <h3>Sinopsis</h3>
+                        <h3>Plot</h3>
                         <p>{{ movie.Plot }}</p>
                     </div>
                 </div>
@@ -68,43 +68,43 @@
                 </div>
 
                 <div v-if="movie.Actors && movie.Actors !== 'N/A'" class="detail-item">
-                    <h4><i class="pi pi-users"></i> Actores</h4>
+                    <h4><i class="pi pi-users"></i> Actors</h4>
                     <p>{{ movie.Actors }}</p>
                 </div>
 
                 <div v-if="movie.Writer && movie.Writer !== 'N/A'" class="detail-item">
-                    <h4><i class="pi pi-pencil"></i> Escritor</h4>
+                    <h4><i class="pi pi-pencil"></i> Writer</h4>
                     <p>{{ movie.Writer }}</p>
                 </div>
 
                 <div v-if="movie.Language && movie.Language !== 'N/A'" class="detail-item">
-                    <h4><i class="pi pi-globe"></i> Idioma</h4>
+                    <h4><i class="pi pi-globe"></i> Language</h4>
                     <p>{{ movie.Language }}</p>
                 </div>
 
                 <div v-if="movie.Country && movie.Country !== 'N/A'" class="detail-item">
-                    <h4><i class="pi pi-map-marker"></i> País</h4>
+                    <h4><i class="pi pi-map-marker"></i> Country</h4>
                     <p>{{ movie.Country }}</p>
                 </div>
 
                 <div v-if="movie.Released && movie.Released !== 'N/A'" class="detail-item">
-                    <h4><i class="pi pi-calendar-plus"></i> Fecha de Estreno</h4>
+                    <h4><i class="pi pi-calendar-plus"></i> Release Date</h4>
                     <p>{{ movie.Released }}</p>
                 </div>
 
                 <div v-if="movie.BoxOffice && movie.BoxOffice !== 'N/A'" class="detail-item">
-                    <h4><i class="pi pi-dollar"></i> Taquilla</h4>
+                    <h4><i class="pi pi-dollar"></i> Box Office</h4>
                     <p>{{ movie.BoxOffice }}</p>
                 </div>
 
                 <div v-if="movie.Production && movie.Production !== 'N/A'" class="detail-item">
-                    <h4><i class="pi pi-building"></i> Producción</h4>
+                    <h4><i class="pi pi-building"></i> Production</h4>
                     <p>{{ movie.Production }}</p>
                 </div>
             </div>
 
             <div v-if="movie.Awards && movie.Awards !== 'N/A'" class="awards">
-                <h3><i class="pi pi-trophy"></i> Premios</h3>
+                <h3><i class="pi pi-trophy"></i> Awards</h3>
                 <p>{{ movie.Awards }}</p>
             </div>
         </div>
@@ -113,7 +113,8 @@
 
 <script setup>
 definePageMeta({
-    middleware: 'auth'
+    middleware: 'auth',
+    layout: 'default'
 })
 
 const route = useRoute()
@@ -136,10 +137,7 @@ const goBack = () => {
 
 <style scoped>
 .movie-detail-page {
-    min-height: 100vh;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+    min-height: calc(100vh - 60px);
 }
 
 .back-button {
@@ -162,7 +160,15 @@ const goBack = () => {
 
 .error-container i {
     font-size: 4rem;
-    color: var(--red-500);
+    color: #e50914;
+}
+
+.error-container h2 {
+    color: #ffffff;
+}
+
+.error-container p {
+    color: #b3b3b3;
 }
 
 .movie-detail {
@@ -180,11 +186,12 @@ const goBack = () => {
     width: 100%;
     height: 450px;
     overflow: hidden;
-    border-radius: var(--border-radius);
-    background: var(--surface-ground);
+    border-radius: 8px;
+    background: #1a1a1a;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .movie-poster-large img {
@@ -198,13 +205,13 @@ const goBack = () => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--text-color-secondary);
+    color: #b3b3b3;
     height: 100%;
 }
 
 .movie-info h1 {
     margin: 0 0 1rem 0;
-    color: var(--primary-color);
+    color: #ffffff;
     font-size: 2.5rem;
 }
 
@@ -213,7 +220,7 @@ const goBack = () => {
     flex-wrap: wrap;
     gap: 1.5rem;
     margin-bottom: 1.5rem;
-    color: var(--text-color-secondary);
+    color: #b3b3b3;
 }
 
 .movie-meta span {
@@ -223,7 +230,7 @@ const goBack = () => {
 }
 
 .movie-meta i {
-    color: var(--primary-color);
+    color: #e50914;
 }
 
 .rating {
@@ -241,7 +248,7 @@ const goBack = () => {
 
 .rating-value strong {
     font-size: 1.5rem;
-    color: var(--primary-color);
+    color: #ffffff;
 }
 
 .plot {
@@ -250,12 +257,12 @@ const goBack = () => {
 
 .plot h3 {
     margin: 0 0 0.5rem 0;
-    color: var(--text-color);
+    color: #ffffff;
 }
 
 .plot p {
     line-height: 1.6;
-    color: var(--text-color-secondary);
+    color: #b3b3b3;
     margin: 0;
 }
 
@@ -268,8 +275,9 @@ const goBack = () => {
 
 .detail-item {
     padding: 1.5rem;
-    background: var(--surface-section);
-    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .detail-item h4 {
@@ -277,20 +285,20 @@ const goBack = () => {
     align-items: center;
     gap: 0.5rem;
     margin: 0 0 0.5rem 0;
-    color: var(--primary-color);
+    color: #e50914;
     font-size: 1rem;
 }
 
 .detail-item p {
     margin: 0;
-    color: var(--text-color);
+    color: #b3b3b3;
     line-height: 1.6;
 }
 
 .awards {
     padding: 2rem;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-600) 100%);
-    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+    border-radius: 8px;
     color: white;
 }
 
@@ -334,10 +342,6 @@ const goBack = () => {
 }
 
 @media (max-width: 768px) {
-    .movie-detail-page {
-        padding: 1rem;
-    }
-
     .movie-details-grid {
         grid-template-columns: 1fr;
     }

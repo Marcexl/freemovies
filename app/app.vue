@@ -11,12 +11,12 @@
 <script setup>
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - FreeMovies` : 'FreeMovies - Administración de Películas'
+    return titleChunk ? `${titleChunk} - FreeMovies` : 'FreeMovies - Movie Streaming'
   },
   meta: [
     { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { name: 'description', content: 'Sistema de administración de películas con Vue.js/Nuxt' }
+    { name: 'description', content: 'Stream and discover your favorite movies' }
   ]
 })
 
@@ -31,9 +31,10 @@ useHead({
 
 body {
   font-family: var(--font-family);
-  background-color: var(--surface-ground);
-  color: var(--text-color);
+  background-color: #0a0a0a;
+  color: #ffffff;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 #app {
@@ -50,15 +51,20 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--surface-ground);
+  background: #0a0a0a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--surface-border);
+  background: #333333;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-color-secondary);
+  background: #555555;
+}
+
+/* Override PrimeVue default colors for dark theme */
+.p-component {
+  color: #ffffff;
 }
 </style>
