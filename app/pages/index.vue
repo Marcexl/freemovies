@@ -80,7 +80,7 @@ const errors = ref({})
 // Redirect if already authenticated
 watch(isAuthenticated, (authenticated) => {
     if (authenticated) {
-        router.push('/movies')
+        router.push('/home')
     }
 }, { immediate: true })
 
@@ -134,7 +134,7 @@ const handleSubmit = async () => {
         }
 
         if (result.success) {
-            router.push('/movies')
+            router.push('/home')
         } else {
             errorMessage.value = result.error || 'Error al procesar la solicitud'
         }
@@ -153,7 +153,7 @@ const handleGoogleLogin = async () => {
     try {
         const result = await loginWithGoogle()
         if (result.success) {
-            router.push('/movies')
+            router.push('/home')
         } else {
             errorMessage.value = result.error || 'Error al iniciar sesión con Google'
         }

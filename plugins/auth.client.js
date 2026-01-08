@@ -2,7 +2,7 @@ export default defineNuxtPlugin(() => {
   const authStore = useAuthStore()
   
   // Initialize auth check on app startup
-  if (process.client) {
+  if (import.meta.client) {
     authStore.init()
   }
 })

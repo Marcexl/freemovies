@@ -3,7 +3,7 @@
         <!-- Top Navigation Bar -->
         <Menubar :model="menuItems" class="top-navbar">
             <template #start>
-                <div class="logo-container" @click="navigateTo('/movies')">
+                <div class="logo-container" @click="navigateTo('/home')">
                     <img src="/logo-cutted.png" alt="FreeMovies" class="logo-image">
                 </div>
             </template>
@@ -52,24 +52,29 @@ const searchQuery = ref('')
 
 // Menu items for navigation
 const menuItems = computed(() => [
-    {
-        label: 'Home',
-        icon: 'pi pi-home',
-        command: () => navigateTo('/movies')
-    },
-    {
-        label: 'Movies',
-        icon: 'pi pi-film',
-        command: () => navigateTo('/movies')
-    },
-    {
-        label: 'My List',
-        icon: 'pi pi-bookmark',
-        command: () => {
-            // TODO: Navigate to favorites/watchlist
-            console.log('My List clicked')
-        }
+  {
+    label: 'Home',
+    icon: 'pi pi-home',
+    command: () => navigateTo('/home')
+  },
+  {
+    label: 'Movies',
+    icon: 'pi pi-film',
+    command: () => navigateTo('/movies')
+  },
+  {
+    label: 'Series',
+    icon: 'pi pi-tv',
+    command: () => navigateTo('/series')
+  },
+  {
+    label: 'My List',
+    icon: 'pi pi-bookmark',
+    command: () => {
+      // TODO: Navigate to favorites/watchlist
+      console.log('My List clicked')
     }
+  }
 ])
 
 // User menu items

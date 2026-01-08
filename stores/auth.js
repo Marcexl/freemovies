@@ -73,7 +73,7 @@ export const useAuthStore = defineStore('auth', {
 
     // Register with email and password
     async register(email, password, name) {
-      if (!process.client || !auth || !db) {
+      if (!import.meta.client || !auth || !db) {
         return { success: false, error: 'Firebase no está disponible' }
       }
 
@@ -120,7 +120,7 @@ export const useAuthStore = defineStore('auth', {
 
     // Login with email and password
     async login(email, password) {
-      if (!process.client || !auth || !db) {
+      if (!import.meta.client || !auth || !db) {
         return { success: false, error: 'Firebase no está disponible' }
       }
 
@@ -174,7 +174,7 @@ export const useAuthStore = defineStore('auth', {
 
     // Login with Google
     async loginWithGoogle() {
-      if (!process.client || !auth || !db || !googleProvider) {
+      if (!import.meta.client || !auth || !db || !googleProvider) {
         return { success: false, error: 'Firebase no está disponible' }
       }
 
@@ -211,7 +211,7 @@ export const useAuthStore = defineStore('auth', {
 
     // Logout
     async logout() {
-      if (!process.client || !auth) {
+      if (!import.meta.client || !auth) {
         return { success: false, error: 'Firebase no está disponible' }
       }
 
@@ -225,52 +225,71 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    // Helper method to load user data
+    async loadUserData(firebaseUser) {
+      try {
+        // Get user document from Firestore
+        const userRef = doc(db, 'users', firebaseUser.uid)
+        const userDoc = await getDoc(userRef)
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data()
+          this.setUser({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: userData.name || firebaseUser.displayName || firebaseUser.email.split('@')[0],
+            displayName: userData.displayName,
+            photoURL: userData.photoURL
+          })
+        } else {
+          // Create user document if it doesn't exist
+          const userData = await this.createUserDocument(firebaseUser)
+          this.setUser({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: userData.name || firebaseUser.displayName || firebaseUser.email.split('@')[0],
+            displayName: userData.displayName,
+            photoURL: userData.photoURL
+          })
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+        this.setUser(null)
+      }
+    },
+
     // Check authentication state
     checkAuth() {
-      if (process.client && auth && db) {
+      if (import.meta.client && auth && db) {
         this.setLoading(true)
+        
+        // Check if there's already a user (Firebase persists sessions)
+        const currentUser = auth.currentUser
+        if (currentUser) {
+          // User is already authenticated, load their data immediately
+          this.loadUserData(currentUser).then(() => {
+            this.setLoading(false)
+          })
+        }
+        
+        // Set up listener for auth state changes
         onAuthStateChanged(auth, async (firebaseUser) => {
           if (firebaseUser) {
-            try {
-              // Get user document from Firestore
-              const userRef = doc(db, 'users', firebaseUser.uid)
-              const userDoc = await getDoc(userRef)
-
-              if (userDoc.exists()) {
-                const userData = userDoc.data()
-                this.setUser({
-                  uid: firebaseUser.uid,
-                  email: firebaseUser.email,
-                  name: userData.name || firebaseUser.displayName || firebaseUser.email.split('@')[0],
-                  displayName: userData.displayName,
-                  photoURL: userData.photoURL
-                })
-              } else {
-                // Create user document if it doesn't exist
-                const userData = await this.createUserDocument(firebaseUser)
-                this.setUser({
-                  uid: firebaseUser.uid,
-                  email: firebaseUser.email,
-                  name: userData.name || firebaseUser.displayName || firebaseUser.email.split('@')[0],
-                  displayName: userData.displayName,
-                  photoURL: userData.photoURL
-                })
-              }
-            } catch (error) {
-              console.error('Error fetching user data:', error)
-              this.setUser(null)
-            }
+            await this.loadUserData(firebaseUser)
           } else {
             this.setUser(null)
           }
           this.setLoading(false)
         })
+      } else {
+        // Not on client, set loading to false
+        this.setLoading(false)
       }
     },
 
     // Initialize auth check
     init() {
-      if (process.client) {
+      if (import.meta.client) {
         this.checkAuth()
       }
     }
