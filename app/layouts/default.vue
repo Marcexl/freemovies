@@ -1,29 +1,31 @@
 <template>
     <div class="app-layout">
         <!-- Top Navigation Bar -->
-        <Menubar :model="menuItems" class="top-navbar">
-            <template #start>
-                <div class="logo-container" @click="navigateTo('/home')">
-                    <img src="/logo-cutted.png" alt="FreeMovies" class="logo-image">
-                </div>
-            </template>
+        <ClientOnly>
+            <Menubar :model="menuItems" class="top-navbar">
+                <template #start>
+                    <div class="logo-container" @click="navigateTo('/home')">
+                        <img src="/logo-cutted.png" alt="FreeMovies" class="logo-image">
+                    </div>
+                </template>
 
-            <template #end>
-                <div class="nav-actions">
-                    <!-- Search Icon (can be expanded to search bar) -->
-                    <Button icon="pi pi-search" text rounded aria-label="Search" @click="toggleSearch"
-                        class="search-button" />
+                <template #end>
+                    <div class="nav-actions">
+                        <!-- Search Icon (can be expanded to search bar) -->
+                        <Button icon="pi pi-search" text rounded aria-label="Search" @click="toggleSearch"
+                            class="search-button" />
 
-                    <!-- User Profile Menu -->
-                    <Menu ref="userMenu" :model="userMenuItems" :popup="true" />
-                    <Button :label="user?.name || 'User'" :icon="user?.photoURL ? undefined : 'pi pi-user'" text
-                        class="user-button" @click="toggleUserMenu">
-                        <Avatar v-if="user?.photoURL" :image="user.photoURL" shape="circle" class="user-avatar" />
-                        <i class="pi pi-chevron-down ml-2"></i>
-                    </Button>
-                </div>
-            </template>
-        </Menubar>
+                        <!-- User Profile Menu -->
+                        <Menu ref="userMenu" :model="userMenuItems" :popup="true" />
+                        <Button :label="user?.name || 'User'" :icon="user?.photoURL ? undefined : 'pi pi-user'" text
+                            class="user-button" @click="toggleUserMenu">
+                            <Avatar v-if="user?.photoURL" :image="user.photoURL" shape="circle" class="user-avatar" />
+                            <i class="pi pi-chevron-down ml-2"></i>
+                        </Button>
+                    </div>
+                </template>
+            </Menubar>
+        </ClientOnly>
 
         <!-- Search Bar (expandable) -->
         <Transition name="slide-down">

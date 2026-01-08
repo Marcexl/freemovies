@@ -4,7 +4,7 @@ export const useAuth = () => {
   const authStore = useAuthStore()
   
   // Initialize auth check on first use
-  if (import.meta.client && !authStore.loading && !authStore.isAuthenticated) {
+  if (import.meta.client && !authStore.unsubscribeAuth) {
     authStore.init()
   }
 
@@ -19,6 +19,5 @@ export const useAuth = () => {
     login: (email, password) => authStore.login(email, password),
     loginWithGoogle: () => authStore.loginWithGoogle(),
     logout: () => authStore.logout(),
-    checkAuth: () => authStore.checkAuth()
   }
 }
