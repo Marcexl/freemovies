@@ -18,7 +18,8 @@ export default defineNuxtConfig({
     }
   },
   css: [
-    'primeicons/primeicons.css'
+    'primeicons/primeicons.css',
+    './node_modules/primeflex/primeflex.css'
   ],
   
   build: {

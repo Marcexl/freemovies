@@ -17,22 +17,23 @@
                 <form @submit.prevent="handleSubmit" class="login-form">
                     <div v-if="isRegisterMode" class="form-group">
                         <label for="name">Name</label>
-                        <InputText id="name" v-model="name" type="text" placeholder="Full name" class="w-full"
-                            :class="{ 'p-invalid': errors.name }" autocomplete="name" required />
+                        <InputText id="name" v-model="name" type="text" placeholder="Full name"
+                            class="w-full text-white" :class="{ 'p-invalid': errors.name }" autocomplete="name"
+                            required />
                         <small v-if="errors.name" class="p-error">{{ errors.name }}</small>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <InputText id="email" v-model="email" type="email" placeholder="your@email.com" class="w-full"
-                            :class="{ 'p-invalid': errors.email }" autocomplete="email" required
-                            :disabled="isLoading" />
+                        <InputText id="email" v-model="email" type="email" placeholder="your@email.com"
+                            class="w-full text-white" :class="{ 'p-invalid': errors.email }" autocomplete="email"
+                            required :disabled="isLoading" />
                         <small v-if="errors.email" class="p-error">{{ errors.email }}</small>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <Password id="password" v-model="password" placeholder="••••••••" class="w-full"
+                        <Password id="password" v-model="password" placeholder="••••••••" class="w-full text-white"
                             :class="{ 'p-invalid': errors.password }" :feedback="isRegisterMode" toggleMask
                             :inputStyle="{ width: '100%' }" required :disabled="isLoading" />
                         <small v-if="errors.password" class="p-error">{{ errors.password }}</small>

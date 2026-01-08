@@ -1,5 +1,5 @@
 <template>
-    <div class="movie-detail-page">
+    <div class="series-detail-page">
         <Button label="Volver" icon="pi pi-arrow-left" severity="secondary" outlined @click="goBack"
             class="back-button" />
 
@@ -14,98 +14,98 @@
             <Button label="Volver al listado" @click="goBack" />
         </div>
 
-        <div v-else-if="movie" class="movie-detail">
-            <div class="movie-header">
-                <div class="movie-poster-large">
-                    <img v-if="movie.Poster && movie.Poster !== 'N/A'" :src="movie.Poster" :alt="movie.Title" />
+        <div v-else-if="series" class="series-detail">
+            <div class="series-header">
+                <div class="series-poster-large">
+                    <img v-if="series.Poster && series.Poster !== 'N/A'" :src="series.Poster" :alt="series.Title" />
                     <div v-else class="no-poster-large">
                         <i class="pi pi-image" style="font-size: 5rem"></i>
                         <p>Sin imagen</p>
                     </div>
                 </div>
 
-                <div class="movie-info">
-                    <h1>{{ movie.Title }}</h1>
+                <div class="series-info">
+                    <h1>{{ series.Title }}</h1>
 
-                    <div class="movie-meta">
-                        <span v-if="movie.Year">
+                    <div class="series-meta">
+                        <span v-if="series.Year">
                             <i class="pi pi-calendar"></i>
-                            {{ movie.Year }}
+                            {{ series.Year }}
                         </span>
-                        <span v-if="movie.Runtime && movie.Runtime !== 'N/A'">
+                        <span v-if="series.Runtime && series.Runtime !== 'N/A'">
                             <i class="pi pi-clock"></i>
-                            {{ movie.Runtime }}
+                            {{ series.Runtime }}
                         </span>
-                        <span v-if="movie.Genre && movie.Genre !== 'N/A'">
+                        <span v-if="series.Genre && series.Genre !== 'N/A'">
                             <i class="pi pi-tag"></i>
-                            {{ movie.Genre }}
+                            {{ series.Genre }}
                         </span>
-                        <span v-if="movie.Rated && movie.Rated !== 'N/A'">
+                        <span v-if="series.Rated && series.Rated !== 'N/A'">
                             <i class="pi pi-info-circle"></i>
-                            {{ movie.Rated }}
+                            {{ series.Rated }}
                         </span>
                     </div>
 
-                    <div v-if="movie.imdbRating && movie.imdbRating !== 'N/A'" class="rating">
-                        <Rating :modelValue="parseFloat(movie.imdbRating) / 2" :readonly="true" :cancel="false" />
+                    <div v-if="series.imdbRating && series.imdbRating !== 'N/A'" class="rating">
+                        <Rating :modelValue="parseFloat(series.imdbRating) / 2" :readonly="true" :cancel="false" />
                         <span class="rating-value">
-                            <strong>{{ movie.imdbRating }}</strong> / 10
+                            <strong>{{ series.imdbRating }}</strong> / 10
                             <small>(IMDb)</small>
                         </span>
                     </div>
 
-                    <div v-if="movie.Plot && movie.Plot !== 'N/A'" class="plot">
+                    <div v-if="series.Plot && series.Plot !== 'N/A'" class="plot">
                         <h3>Plot</h3>
-                        <p>{{ movie.Plot }}</p>
+                        <p>{{ series.Plot }}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="movie-details-grid">
-                <div v-if="movie.Director && movie.Director !== 'N/A'" class="detail-item">
+            <div class="series-details-grid">
+                <div v-if="series.Director && series.Director !== 'N/A'" class="detail-item">
                     <h4><i class="pi pi-user"></i> Director</h4>
-                    <p>{{ movie.Director }}</p>
+                    <p>{{ series.Director }}</p>
                 </div>
 
-                <div v-if="movie.Actors && movie.Actors !== 'N/A'" class="detail-item">
+                <div v-if="series.Actors && series.Actors !== 'N/A'" class="detail-item">
                     <h4><i class="pi pi-users"></i> Actors</h4>
-                    <p>{{ movie.Actors }}</p>
+                    <p>{{ series.Actors }}</p>
                 </div>
 
-                <div v-if="movie.Writer && movie.Writer !== 'N/A'" class="detail-item">
+                <div v-if="series.Writer && series.Writer !== 'N/A'" class="detail-item">
                     <h4><i class="pi pi-pencil"></i> Writer</h4>
-                    <p>{{ movie.Writer }}</p>
+                    <p>{{ series.Writer }}</p>
                 </div>
 
-                <div v-if="movie.Language && movie.Language !== 'N/A'" class="detail-item">
+                <div v-if="series.Language && series.Language !== 'N/A'" class="detail-item">
                     <h4><i class="pi pi-globe"></i> Language</h4>
-                    <p>{{ movie.Language }}</p>
+                    <p>{{ series.Language }}</p>
                 </div>
 
-                <div v-if="movie.Country && movie.Country !== 'N/A'" class="detail-item">
+                <div v-if="series.Country && series.Country !== 'N/A'" class="detail-item">
                     <h4><i class="pi pi-map-marker"></i> Country</h4>
-                    <p>{{ movie.Country }}</p>
+                    <p>{{ series.Country }}</p>
                 </div>
 
-                <div v-if="movie.Released && movie.Released !== 'N/A'" class="detail-item">
+                <div v-if="series.Released && series.Released !== 'N/A'" class="detail-item">
                     <h4><i class="pi pi-calendar-plus"></i> Release Date</h4>
-                    <p>{{ movie.Released }}</p>
+                    <p>{{ series.Released }}</p>
                 </div>
 
-                <div v-if="movie.BoxOffice && movie.BoxOffice !== 'N/A'" class="detail-item">
-                    <h4><i class="pi pi-dollar"></i> Box Office</h4>
-                    <p>{{ movie.BoxOffice }}</p>
+                <div v-if="series.totalSeasons && series.totalSeasons !== 'N/A'" class="detail-item">
+                    <h4><i class="pi pi-tv"></i> Total Seasons</h4>
+                    <p>{{ series.totalSeasons }}</p>
                 </div>
 
-                <div v-if="movie.Production && movie.Production !== 'N/A'" class="detail-item">
+                <div v-if="series.Production && series.Production !== 'N/A'" class="detail-item">
                     <h4><i class="pi pi-building"></i> Production</h4>
-                    <p>{{ movie.Production }}</p>
+                    <p>{{ series.Production }}</p>
                 </div>
             </div>
 
-            <div v-if="movie.Awards && movie.Awards !== 'N/A'" class="awards">
+            <div v-if="series.Awards && series.Awards !== 'N/A'" class="awards">
                 <h3><i class="pi pi-trophy"></i> Awards</h3>
-                <p>{{ movie.Awards }}</p>
+                <p>{{ series.Awards }}</p>
             </div>
         </div>
     </div>
@@ -118,24 +118,40 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const { fetchMovieDetail, currentMovie, loading, error } = useMovies()
+const { getMovieById } = useOMDB()
 
-const movie = computed(() => currentMovie.value)
+const series = ref(null)
+const loading = ref(true)
+const error = ref(null)
 
 onMounted(async () => {
-    const movieId = route.params.id
-    if (movieId) {
-        await fetchMovieDetail(movieId)
+    const seriesId = route.params.id
+    if (seriesId) {
+        loading.value = true
+        error.value = null
+        
+        try {
+            const result = await getMovieById(seriesId)
+            if (result.success) {
+                series.value = result.movie
+            } else {
+                error.value = result.error
+            }
+        } catch (err) {
+            error.value = 'Error al obtener detalles de la serie'
+        } finally {
+            loading.value = false
+        }
     }
 })
 
 const goBack = () => {
-    router.push('/movies')
+    router.push('/series')
 }
 </script>
 
 <style scoped>
-.movie-detail-page {
+.series-detail-page {
     min-height: calc(100vh - 60px);
 }
 
@@ -170,18 +186,18 @@ const goBack = () => {
     color: #b3b3b3;
 }
 
-.movie-detail {
+.series-detail {
     margin-top: 2rem;
 }
 
-.movie-header {
+.series-header {
     display: grid;
     grid-template-columns: 300px 1fr;
     gap: 3rem;
     margin-bottom: 3rem;
 }
 
-.movie-poster-large {
+.series-poster-large {
     width: 100%;
     height: 450px;
     overflow: hidden;
@@ -193,7 +209,7 @@ const goBack = () => {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-.movie-poster-large img {
+.series-poster-large img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -208,13 +224,13 @@ const goBack = () => {
     height: 100%;
 }
 
-.movie-info h1 {
+.series-info h1 {
     margin: 0 0 1rem 0;
     color: #ffffff;
     font-size: 2.5rem;
 }
 
-.movie-meta {
+.series-meta {
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
@@ -222,13 +238,13 @@ const goBack = () => {
     color: #b3b3b3;
 }
 
-.movie-meta span {
+.series-meta span {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.movie-meta i {
+.series-meta i {
     color: #e50914;
 }
 
@@ -265,7 +281,7 @@ const goBack = () => {
     margin: 0;
 }
 
-.movie-details-grid {
+.series-details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
@@ -316,22 +332,22 @@ const goBack = () => {
 }
 
 @media (max-width: 968px) {
-    .movie-header {
+    .series-header {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
 
-    .movie-poster-large {
+    .series-poster-large {
         max-width: 300px;
         margin: 0 auto;
     }
 
-    .movie-info h1 {
+    .series-info h1 {
         font-size: 2rem;
         text-align: center;
     }
 
-    .movie-meta {
+    .series-meta {
         justify-content: center;
     }
 
@@ -341,7 +357,7 @@ const goBack = () => {
 }
 
 @media (max-width: 768px) {
-    .movie-details-grid {
+    .series-details-grid {
         grid-template-columns: 1fr;
     }
 }

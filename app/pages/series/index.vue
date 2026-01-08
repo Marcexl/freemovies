@@ -37,8 +37,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: 'auth',
-    layout: 'default'
+    middleware: 'auth'
 })
 
 const route = useRoute()
@@ -102,7 +101,7 @@ const searchSeries = async (query, page = 1) => {
         error.value = 'Error searching series'
         series.value = []
     }
-    
+
     loading.value = false
 }
 

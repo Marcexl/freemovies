@@ -17,14 +17,9 @@
                 </p>
             </div>
 
-            <DataView :value="filteredMovies" layout="grid" :paginator="true" :rows="12" :first="(currentPage - 1) * 12"
-                @page="onPageChange" :totalRecords="filteredTotalResults">
-                <template #grid="slotProps">
-                    <div class="movies-grid">
-                        <MovieCard v-for="movie in slotProps.items" :key="movie.imdbID" :movie="movie" />
-                    </div>
-                </template>
-            </DataView>
+            <div class="movies-grid">
+                <MovieCard v-for="movie in filteredMovies" :key="movie.imdbID" :movie="movie" />
+            </div>
         </div>
 
         <div v-else-if="!loading" class="empty-state">
@@ -37,47 +32,84 @@
 
 <script setup>
 definePageMeta({
-    middleware: 'auth',
-    layout: 'default'
+    middleware: 'auth'
 })
 
 const route = useRoute()
-const { movies, loading, error, searchQuery, currentPage, totalResults, search } = useMovies()
+const { searchMovies } = useOMDB()
+
+const movies = ref([])
+const loading = ref(true)
+const error = ref(null)
+const searchQuery = ref('')
+const totalResults = ref(0)
 
 // Filter to show only movies (not series)
 const filteredMovies = computed(() => {
     return movies.value.filter(m => m.Type === 'movie' || !m.Type)
 })
 
-const filteredTotalResults = computed(() => {
-    // Adjust total results based on filtered count
-    if (filteredMovies.value.length < movies.value.length) {
-        return filteredMovies.value.length
-    }
-    return totalResults.value
-})
+// Load default movies (20 random movies)
+const loadDefaultMovies = async () => {
+    loading.value = true
+    error.value = null
 
-// Handle search from query params (when coming from layout search)
-onMounted(() => {
-    const searchParam = route.query.search
-    if (searchParam && searchParam !== searchQuery.value) {
-        search(searchParam, 1)
-    }
-})
+    // Use getMoviesByGenre to get random movies
+    const { getMoviesByGenre } = useOMDB()
+    const result = await getMoviesByGenre('movies', 20)
 
-// Watch for route query changes
-watch(() => route.query.search, (newSearch) => {
-    if (newSearch && newSearch !== searchQuery.value) {
-        search(newSearch, 1)
+    if (result.success) {
+        movies.value = result.movies
+        totalResults.value = result.movies.length
+        searchQuery.value = ''
+    } else {
+        error.value = result.error
+        movies.value = []
     }
-})
 
-const onPageChange = (event) => {
-    const newPage = (event.first / event.rows) + 1
-    if (searchQuery.value) {
-        search(searchQuery.value, newPage)
-    }
+    loading.value = false
 }
+
+// Search movies
+const searchMoviesList = async (query) => {
+    loading.value = true
+    error.value = null
+    searchQuery.value = query
+
+    try {
+        const result = await searchMovies(query, 1)
+        if (result.success) {
+            // Filter to only show movies
+            movies.value = result.movies.filter(m => m.Type === 'movie' || !m.Type)
+            totalResults.value = result.totalResults
+        } else {
+            error.value = result.error
+            movies.value = []
+        }
+    } catch (err) {
+        error.value = 'Error searching movies'
+        movies.value = []
+    }
+
+    loading.value = false
+}
+
+onMounted(async () => {
+    const searchParam = route.query.search
+    if (searchParam) {
+        await searchMoviesList(searchParam)
+    } else {
+        await loadDefaultMovies()
+    }
+})
+
+watch(() => route.query.search, async (newSearch) => {
+    if (newSearch) {
+        await searchMoviesList(newSearch)
+    } else {
+        await loadDefaultMovies()
+    }
+})
 </script>
 
 <style scoped>

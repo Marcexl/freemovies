@@ -72,55 +72,6 @@ export const useOMDB = () => {
     }
   }
 
-  // Get top/popular movies (using popular movie titles)
-  const getTopMovies = async (limit = 5) => {
-    // Popular movie titles to search for
-    const popularTitles = [
-      'The Dark Knight',
-      'Inception',
-      'Pulp Fiction',
-      'The Matrix',
-      'Interstellar',
-      'Fight Club',
-      'Forrest Gump',
-      'The Shawshank Redemption',
-      'The Godfather',
-      'Avatar'
-    ]
-
-    try {
-      const movies = []
-      const shuffled = [...popularTitles].sort(() => Math.random() - 0.5)
-      
-      for (const title of shuffled.slice(0, limit)) {
-        const result = await searchMovies(title, 1)
-        if (result.success && result.movies.length > 0) {
-          // Get full details for the first result
-          const fullDetails = await getMovieById(result.movies[0].imdbID)
-          if (fullDetails.success) {
-            movies.push(fullDetails.movie)
-          } else {
-            movies.push(result.movies[0])
-          }
-        }
-        // Small delay to avoid rate limiting
-        //await new Promise(resolve => setTimeout(resolve, 200))
-      }
-
-      return {
-        movies: movies.slice(0, limit),
-        success: true
-      }
-    } catch (error) {
-      console.error('Error getting top movies:', error)
-      return {
-        movies: [],
-        success: false,
-        error: 'Error al obtener películas populares'
-      }
-    }
-  }
-
   // Get movies by genre (using genre keywords in search)
   const getMoviesByGenre = async (genre, limit = 10) => {
     // Genre search terms
@@ -199,7 +150,6 @@ export const useOMDB = () => {
   return {
     searchMovies,
     getMovieById,
-    getTopMovies,
     getMoviesByGenre,
     getSeries
   }

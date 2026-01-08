@@ -94,10 +94,7 @@ const menuItems = computed(() => [
     {
         label: 'My List',
         icon: 'pi pi-bookmark',
-        command: () => {
-            // TODO: Navigate to favorites/watchlist
-            console.log('My List clicked')
-        },
+        command: () => navigateTo('/my-list'),
         class: isActiveRoute('/my-list') ? 'p-menuitem-active' : ''
     }
 ])
