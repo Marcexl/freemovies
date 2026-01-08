@@ -11,6 +11,7 @@
 
         <div v-else-if="series.length > 0" class="series-container">
             <div class="results-info">
+                <h1>Series</h1>
                 <p>
                     <strong>{{ totalResults }}</strong> series found
                     <span v-if="searchQuery"> for "{{ searchQuery }}"</span>

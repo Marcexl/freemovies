@@ -11,6 +11,7 @@
 
         <div v-else-if="movies.length > 0" class="movies-container">
             <div class="results-info">
+                <h1>Movies</h1>
                 <p>
                     <strong>{{ totalResults }}</strong> movies found
                     <span v-if="searchQuery"> for "{{ searchQuery }}"</span>

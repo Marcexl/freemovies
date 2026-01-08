@@ -4,7 +4,7 @@
         <div class="carousels-container">
             <!-- Movies Carousel -->
             <div class="carousel-section">
-                <h2 class="carousel-title">Movies</h2>
+                <h2 class="carousel-title">Latest Movies</h2>
                 <MovieCarousel :movies="moviesList" :loading="loadingMovies" />
             </div>
 

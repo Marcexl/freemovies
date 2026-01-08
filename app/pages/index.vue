@@ -4,7 +4,7 @@
             <template #title>
                 <div class="login-title">
                     <img src="/logo-transp.png" alt="FreeMovies" class="logo-image">
-                    <p class="subtitle">Movie Streaming</p>
+                    <p class="subtitle">The only really free movies streaming website</p>
                 </div>
             </template>
             <template #content>

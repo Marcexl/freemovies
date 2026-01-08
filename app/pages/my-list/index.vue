@@ -11,6 +11,7 @@
 
         <div v-else-if="myListItems.length > 0" class="my-list-container">
             <div class="results-info">
+                <h1>My List</h1>
                 <p>
                     <strong>{{ myListItems.length }}</strong> {{ myListItems.length === 1 ? 'item' : 'items' }} in your
                     list
