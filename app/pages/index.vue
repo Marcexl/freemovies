@@ -284,10 +284,4 @@ const isLoading = computed(() => {
 .logo-image {
     width: 250px;
 }
-
-.p-password:has(.p-password-toggle-mask-icon) .p-password-input,
-.p-inputtext.p-password-input,
-.p-inputtext {
-    color: var(--netflix-white);
-}
 </style>

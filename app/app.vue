@@ -197,4 +197,13 @@ small {
 label {
   color: var(--netflix-white);
 }
+
+.p-password:has(.p-password-toggle-mask-icon) .p-password-input {
+  color: white;
+}
+
+.p-inputtext.p-password-input,
+.p-inputtext {
+  color: var(--netflix-white);
+}
 </style>
