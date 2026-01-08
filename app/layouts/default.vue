@@ -39,6 +39,18 @@
         <main class="main-content">
             <slot />
         </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p class="footer-text">
+                    All rights reserved © 2026 by
+                    <a href="https://marcexl.com.ar" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        marcexl.com.ar
+                    </a>
+                </p>
+            </div>
+        </footer>
     </div>
 </template>
 
@@ -50,31 +62,44 @@ const userMenu = ref()
 const showSearch = ref(false)
 const searchQuery = ref('')
 
+// Helper to check if route matches
+const isActiveRoute = (path) => {
+    if (path === '/home') {
+        return route.path === '/home' || route.path === '/'
+    }
+    return route.path.startsWith(path)
+}
+
 // Menu items for navigation
 const menuItems = computed(() => [
-  {
-    label: 'Home',
-    icon: 'pi pi-home',
-    command: () => navigateTo('/home')
-  },
-  {
-    label: 'Movies',
-    icon: 'pi pi-film',
-    command: () => navigateTo('/movies')
-  },
-  {
-    label: 'Series',
-    icon: 'pi pi-tv',
-    command: () => navigateTo('/series')
-  },
-  {
-    label: 'My List',
-    icon: 'pi pi-bookmark',
-    command: () => {
-      // TODO: Navigate to favorites/watchlist
-      console.log('My List clicked')
+    {
+        label: 'Home',
+        icon: 'pi pi-home',
+        command: () => navigateTo('/home'),
+        class: isActiveRoute('/home') ? 'p-menuitem-active' : ''
+
+    },
+    {
+        label: 'Movies',
+        icon: 'pi pi-film',
+        command: () => navigateTo('/movies'),
+        class: isActiveRoute('/movies') ? 'p-menuitem-active' : ''
+    },
+    {
+        label: 'Series',
+        icon: 'pi pi-tv',
+        command: () => navigateTo('/series'),
+        class: isActiveRoute('/series') ? 'p-menuitem-active' : ''
+    },
+    {
+        label: 'My List',
+        icon: 'pi pi-bookmark',
+        command: () => {
+            // TODO: Navigate to favorites/watchlist
+            console.log('My List clicked')
+        },
+        class: isActiveRoute('/my-list') ? 'p-menuitem-active' : ''
     }
-  }
 ])
 
 // User menu items
@@ -146,6 +171,8 @@ watch(() => route.path, () => {
     min-height: 100vh;
     background: #0a0a0a;
     color: #ffffff;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Top Navigation Bar */
@@ -282,10 +309,43 @@ watch(() => route.path, () => {
 
 /* Main Content */
 .main-content {
+    flex: 1;
     min-height: calc(100vh - 60px);
     padding: 2rem;
     max-width: 1400px;
     margin: 0 auto;
+    width: 100%;
+}
+
+/* Footer Styles */
+.app-footer {
+    background: rgba(0, 0, 0, 0.8);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-text {
+    color: #b3b3b3;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.footer-link {
+    color: var(--netflix-red);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: var(--netflix-red-dark);
+    text-decoration: underline;
 }
 
 /* Transitions */
@@ -359,6 +419,14 @@ watch(() => route.path, () => {
 
     .search-overlay {
         padding: 1rem;
+    }
+
+    .app-footer {
+        padding: 1.5rem 1rem;
+    }
+
+    .footer-text {
+        font-size: 0.85rem;
     }
 }
 </style>

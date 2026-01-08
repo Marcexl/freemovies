@@ -1,41 +1,5 @@
 <template>
     <div class="homepage">
-        <!-- Hero Slider -->
-        <div v-if="heroMovies.length > 0" class="hero-slider">
-            <Carousel :value="heroMovies" :numVisible="1" :numScroll="1" :autoplayInterval="5000" :circular="true"
-                :showIndicators="true" :showNavigators="true" class="hero-carousel">
-                <template #item="slotProps">
-                    <div class="hero-slide" @click="goToMovie(slotProps.data.imdbID)">
-                        <div class="hero-backdrop">
-                            <img v-if="slotProps.data.Poster && slotProps.data.Poster !== 'N/A'"
-                                :src="slotProps.data.Poster" :alt="slotProps.data.Title" />
-                            <div v-else class="hero-placeholder">
-                                <i class="pi pi-film" style="font-size: 5rem"></i>
-                            </div>
-                        </div>
-                        <div class="hero-content">
-                            <h1 class="hero-title">{{ slotProps.data.Title }}</h1>
-                            <p v-if="slotProps.data.Plot && slotProps.data.Plot !== 'N/A'" class="hero-plot">
-                                {{ slotProps.data.Plot.substring(0, 150) }}...
-                            </p>
-                            <div class="hero-meta">
-                                <span v-if="slotProps.data.Year">
-                                    <i class="pi pi-calendar"></i> {{ slotProps.data.Year }}
-                                </span>
-                                <span v-if="slotProps.data.imdbRating && slotProps.data.imdbRating !== 'N/A'">
-                                    <i class="pi pi-star"></i> {{ slotProps.data.imdbRating }}
-                                </span>
-                                <span v-if="slotProps.data.Runtime && slotProps.data.Runtime !== 'N/A'">
-                                    <i class="pi pi-clock"></i> {{ slotProps.data.Runtime }}
-                                </span>
-                            </div>
-                            <Button label="Watch Now" icon="pi pi-play" class="hero-button" />
-                        </div>
-                    </div>
-                </template>
-            </Carousel>
-        </div>
-
         <!-- Genre Carousels -->
         <div class="carousels-container">
             <!-- Movies Carousel -->
@@ -93,59 +57,7 @@ onMounted(async () => {
         loadSuspense(),
         loadTerror()
     ])
-    
-    // After all carousels load, create hero from random items
-    createHeroFromCarousels()
 })
-
-const createHeroFromCarousels = async () => {
-    loadingHero.value = true
-    const heroItems = []
-    
-    // Pick one random from each category
-    if (moviesList.value.length > 0) {
-        const randomMovie = moviesList.value[Math.floor(Math.random() * moviesList.value.length)]
-        const fullDetails = await getMovieById(randomMovie.imdbID)
-        if (fullDetails.success) {
-            heroItems.push(fullDetails.movie)
-        } else {
-            heroItems.push(randomMovie)
-        }
-    }
-    
-    if (seriesList.value.length > 0) {
-        const randomSeries = seriesList.value[Math.floor(Math.random() * seriesList.value.length)]
-        const fullDetails = await getMovieById(randomSeries.imdbID)
-        if (fullDetails.success) {
-            heroItems.push(fullDetails.movie)
-        } else {
-            heroItems.push(randomSeries)
-        }
-    }
-    
-    if (suspenseList.value.length > 0) {
-        const randomSuspense = suspenseList.value[Math.floor(Math.random() * suspenseList.value.length)]
-        const fullDetails = await getMovieById(randomSuspense.imdbID)
-        if (fullDetails.success) {
-            heroItems.push(fullDetails.movie)
-        } else {
-            heroItems.push(randomSuspense)
-        }
-    }
-    
-    if (terrorList.value.length > 0) {
-        const randomTerror = terrorList.value[Math.floor(Math.random() * terrorList.value.length)]
-        const fullDetails = await getMovieById(randomTerror.imdbID)
-        if (fullDetails.success) {
-            heroItems.push(fullDetails.movie)
-        } else {
-            heroItems.push(randomTerror)
-        }
-    }
-    
-    heroMovies.value = heroItems
-    loadingHero.value = false
-}
 
 const loadMovies = async () => {
     loadingMovies.value = true
@@ -181,10 +93,6 @@ const loadTerror = async () => {
         terrorList.value = result.movies
     }
     loadingTerror.value = false
-}
-
-const goToMovie = (imdbID) => {
-    router.push(`/movies/${imdbID}`)
 }
 </script>
 
