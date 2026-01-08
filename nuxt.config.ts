@@ -7,9 +7,9 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module',
     '@pinia/nuxt'
   ],
-  primevue: { 
-    components:{
-      include:['*']
+  primevue: {
+    components: {
+      include: ['*']
     },
     options: {
       theme: {
@@ -19,13 +19,14 @@ export default defineNuxtConfig({
   },
   css: [
     'primeicons/primeicons.css',
-    './node_modules/primeflex/primeflex.css'
+    './node_modules/primeflex/primeflex.css',
+    '~/assets/css/main.css'
   ],
-  
+
   build: {
     transpile: ['primevue']
   },
-  
+
   runtimeConfig: {
     public: {
       omdbApiKey: process.env.OMDB_API_KEY || 'demo'

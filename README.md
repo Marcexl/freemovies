@@ -312,7 +312,7 @@ docker build -t freemovies:latest .
 ### Ejecutar el Contenedor
 
 ```bash
-docker run -d --name freemovies-test -p 3000:3000 -e OMDB_API_KEY=2dff02c4 freemovies:latest
+docker run -d --name freemovies-test -p 3000:3000 -e NUXT_PUBLIC_OMDB_API_KEY=2dff02c4 freemovies:latest
 ```
 
 ### Acceder a la Aplicación

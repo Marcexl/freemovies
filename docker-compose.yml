@@ -10,7 +10,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - OMDB_API_KEY=2dff02c4
+      - NUXT_PUBLIC_OMDB_API_KEY=2dff02c4
     restart: unless-stopped
     volumes:
       - ./public:/app/public
