@@ -18,8 +18,8 @@
                 </p>
             </div>
 
-            <DataView :value="series" layout="grid" :paginator="true" :rows="12" :first="(currentPage - 1) * 12"
-                @page="onPageChange" :totalRecords="totalResults">
+            <DataView :value="series" layout="grid" :rows="12" :first="(currentPage - 1) * 12" @page="onPageChange"
+                :totalRecords="totalResults">
                 <template #grid="slotProps">
                     <div class="series-grid">
                         <MovieCard v-for="item in slotProps.items" :key="item.imdbID" :movie="item" />
