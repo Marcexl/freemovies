@@ -76,26 +76,22 @@ const isActiveRoute = (path) => {
 const menuItems = computed(() => [
     {
         label: 'Home',
-        icon: 'pi pi-home',
         command: () => navigateTo('/home'),
         class: isActiveRoute('/home') ? 'p-menuitem-active' : ''
 
     },
     {
         label: 'Movies',
-        icon: 'pi pi-film',
         command: () => navigateTo('/movies'),
         class: isActiveRoute('/movies') ? 'p-menuitem-active' : ''
     },
     {
         label: 'Series',
-        icon: 'pi pi-tv',
         command: () => navigateTo('/series'),
         class: isActiveRoute('/series') ? 'p-menuitem-active' : ''
     },
     {
         label: 'My List',
-        icon: 'pi pi-bookmark',
         command: () => navigateTo('/my-list'),
         class: isActiveRoute('/my-list') ? 'p-menuitem-active' : ''
     }
@@ -147,8 +143,8 @@ const toggleSearch = () => {
 const handleSearch = (query) => {
     if (query && query.trim()) {
         router.push({
-            path: '/movies',
-            query: { search: query }
+            path: '/search',
+            query: { q: query }
         })
         showSearch.value = false
     }
