@@ -39,15 +39,14 @@
                         <small v-if="errors.password" class="p-error">{{ errors.password }}</small>
                     </div>
 
-                    <Button type="submit" :label="isRegisterMode ? 'Register' : 'Login'"
-                        :icon="isRegisterMode ? 'pi pi-user-plus' : 'pi pi-sign-in'" class="w-full login-button"
+                    <Button type="submit" :label="isRegisterMode ? 'Register' : 'Login'" class="w-full login-button"
                         :loading="isLoading" :disabled="isLoading" />
 
                     <div class="divider">
                         <span>or continue with</span>
                     </div>
 
-                    <Button label="Google Sign In" icon="pi pi-google" class="w-full google-button" :loading="isLoading"
+                    <Button label="Google sign in" icon="pi pi-google" class="w-full google-button" :loading="isLoading"
                         :disabled="isLoading" @click="handleGoogleLogin" />
 
                     <div v-if="errorMessage" class="error-message">
@@ -254,7 +253,7 @@ const isLoading = computed(() => {
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 1.5rem 0;
+    margin: 0.5rem 0;
     color: var(--text-color-secondary);
 }
 
@@ -284,5 +283,14 @@ const isLoading = computed(() => {
 
 .logo-image {
     width: 250px;
+}
+
+.login-button {
+    background-color: var(--netflix-red);
+    border: 1px solid var(--netflix-red);
+}
+
+.toggle-button {
+    color: var(--netflix-red);
 }
 </style>
