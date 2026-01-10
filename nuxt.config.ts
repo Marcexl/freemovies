@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@primevue/nuxt-module',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@vueuse/nuxt'
   ],
   primevue: {
     components: {

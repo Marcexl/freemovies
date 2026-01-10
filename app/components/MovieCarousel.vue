@@ -1,41 +1,23 @@
 <template>
     <div class="movie-carousel">
         <div v-if="loading" class="carousel-loading">
-            <MovieSkeleton v-for="n in 10" :key="n" class="carousel-item" />
+            <MovieSkeleton v-for="n in 5" :key="n" class="skeleton-item" />
         </div>
-        <div v-else-if="movies.length > 0" class="carousel-wrapper">
-            <Button 
-                icon="pi pi-chevron-left" 
-                class="carousel-nav carousel-nav-left"
-                text
-                rounded
-                @click="scrollLeft"
-                :disabled="scrollPosition === 0"
-            />
-            <div class="carousel-container" ref="carouselRef">
-                <div class="carousel-track" :style="{ transform: `translateX(-${scrollPosition}px)` }">
-                    <div 
-                        v-for="movie in movies" 
-                        :key="movie.imdbID" 
-                        class="carousel-item"
-                    >
-                        <MovieCard :movie="movie" />
-                    </div>
+        <Carousel v-else :value="movies" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular
+            :autoplayInterval="0" class="custom-carousel">
+            <template #item="slotProps">
+                <div class="carousel-item-wrapper">
+                    <MovieCard :movie="slotProps.data" />
                 </div>
-            </div>
-            <Button 
-                icon="pi pi-chevron-right" 
-                class="carousel-nav carousel-nav-right"
-                text
-                rounded
-                @click="scrollRight"
-                :disabled="isAtEnd"
-            />
-        </div>
+            </template>
+        </Carousel>
     </div>
 </template>
 
 <script setup>
+import { breakpointsOptions } from '../composables/useBreakpoints'
+
+
 const props = defineProps({
     movies: {
         type: Array,
@@ -47,96 +29,100 @@ const props = defineProps({
     }
 })
 
-const carouselRef = ref(null)
-const scrollPosition = ref(0)
-const itemWidth = 280
-const gap = 16
-const visibleItems = 5
-const scrollAmount = (itemWidth + gap) * 2
 
-const isAtEnd = computed(() => {
-    if (!carouselRef.value) return false
-    const maxScroll = (props.movies.length - visibleItems) * (itemWidth + gap)
-    return scrollPosition.value >= maxScroll
-})
-
-const scrollLeft = () => {
-    scrollPosition.value = Math.max(0, scrollPosition.value - scrollAmount)
-}
-
-const scrollRight = () => {
-    const maxScroll = (props.movies.length - visibleItems) * (itemWidth + gap)
-    scrollPosition.value = Math.min(maxScroll, scrollPosition.value + scrollAmount)
-}
+const responsiveOptions = ref([
+    {
+        breakpoint: breakpointsOptions.desktop + 'px',
+        numVisible: 5,
+        numScroll: 1
+    },
+    {
+        breakpoint: breakpointsOptions.laptop + 'px',
+        numVisible: 4,
+        numScroll: 1
+    },
+    {
+        breakpoint: breakpointsOptions.tabletHorizontal + 'px',
+        numVisible: 3,
+        numScroll: 1
+    },
+    {
+        breakpoint: breakpointsOptions.tabletVertical + 'px',
+        numVisible: 2,
+        numScroll: 1
+    },
+    {
+        breakpoint: breakpointsOptions.mobile + 'px',
+        numVisible: 1,
+        numScroll: 1
+    }
+])
 </script>
 
 <style scoped>
 .movie-carousel {
-    position: relative;
     width: 100%;
 }
 
 .carousel-loading {
     display: flex;
     gap: 1rem;
-    overflow-x: auto;
-    padding: 1rem 0;
+    overflow-x: hidden;
+    padding: 0 0.5rem;
 }
 
-.carousel-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.skeleton-item {
+    min-width: 250px;
 }
 
-.carousel-container {
-    flex: 1;
-    overflow: hidden;
-    position: relative;
+.carousel-item-wrapper {
+    padding: 0 0.5rem;
+    height: 100%;
 }
 
-.carousel-track {
-    display: flex;
-    gap: 1rem;
-    transition: transform 0.5s ease;
-    will-change: transform;
-}
-
-.carousel-item {
-    flex: 0 0 280px;
-    min-width: 280px;
-}
-
-.carousel-nav {
+/* Customize PrimeVue Carousel Buttons */
+:deep(.p-carousel-prev),
+:deep(.p-carousel-next) {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
     width: 3rem;
     height: 3rem;
-    color: #ffffff;
-    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+    margin: 0 0.5rem;
+    position: absolute;
     z-index: 2;
-    flex-shrink: 0;
 }
 
-.carousel-nav:hover:not(:disabled) {
-    background: rgba(0, 0, 0, 0.7);
+:deep(.p-carousel-prev) {
+    left: 10px;
+}
+
+:deep(.p-carousel-next) {
+    right: 10px;
+}
+
+:deep(.p-carousel-prev:hover),
+:deep(.p-carousel-next:hover) {
+    background: rgba(0, 0, 0, 0.9);
     border-color: var(--netflix-red);
+    color: var(--netflix-red);
 }
 
-.carousel-nav:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+:deep(.p-carousel-prev:disabled),
+:deep(.p-carousel-next:disabled) {
+    opacity: 0;
+    pointer-events: none;
 }
 
-@media (max-width: 768px) {
-    .carousel-item {
-        flex: 0 0 200px;
-        min-width: 200px;
-    }
+/* Hide indicators/dots usually */
+:deep(.p-carousel-indicators) {
+    display: none;
+}
 
-    .carousel-nav {
-        width: 2.5rem;
-        height: 2.5rem;
-    }
+/* Ensure container handles absolute buttons */
+:deep(.p-carousel-content) {
+    position: relative;
 }
 </style>
